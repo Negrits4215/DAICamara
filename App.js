@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './HomeScreen'; // Importa HomeScreen desde el archivo HomeScreen.js
+import CameraScreen from './CameraScreen'; // Importa CameraScreen desde el archivo CameraScreen.js
+
+const Tab = createNativeStackNavigator();
 
 export default function App() {
+  const [photos, setPhotos] = useState([]);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home">
+          {(props) => <HomeScreen {...props} photos={photos} />}
+        </Tab.Screen>
+        <Tab.Screen
+          name="CameraScreen"
+          component={() => <CameraScreen setPhotos={setPhotos} />}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
